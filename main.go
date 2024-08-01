@@ -1,4 +1,4 @@
-// Package main is a module which serves the mybase custom model.
+// Package main is a module which serves the ptrwinchmotor custom model.
 package main
 
 import (
@@ -27,7 +27,7 @@ func mainWithArgs(ctx context.Context, args []string, logger logging.Logger) (er
 
 	// Models and APIs add helpers to the registry during their init().
 	// They can then be added to the module here.
-	err = myMod.AddModelFromRegistry(ctx, motor.API, winchmotor.Model)
+	err = myMod.AddModelFromRegistry(ctx, motor.API, Model)
 	if err != nil {
 		return err
 	}

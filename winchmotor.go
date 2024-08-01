@@ -7,7 +7,7 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
-
+	"go.viam.com/rdk/components/board"
 	"go.viam.com/rdk/components/motor"
 	"go.viam.com/rdk/logging"
 	"go.viam.com/rdk/resource"
@@ -16,13 +16,17 @@ import (
 // Here is where we define your new model's colon-delimited-triplet (acme:my-custom-base-repo:mybase)
 // acme = namespace, my-custom-base-repo = repo-name, mybase = model name.
 var (
-	Model            = resource.NewModel("pulltorefresh.earth", "viam-rdk", "winchmotor")
+	Model            = resource.NewModel("pulltorefresh", "ptrwinchmotor", "ptrwinchmotor")
 	errUnimplemented = errors.New("unimplemented")
 )
 
 const (
-// myBaseWidthMm        = 500.0 // Base has a wheel tread of 500 millimeters
-// myBaseTurningRadiusM = 0.3   // Base turns around a circle of radius .3 meters
+	propellerPinName = "29"
+)
+
+var (
+	turningPinNames = []string{"40", "38", "36", "32"}
+	wenchPinNames   = []string{"31", "33", "35", "37"}
 )
 
 func init() {
@@ -42,10 +46,30 @@ func newWinchMotor(ctx context.Context, deps resource.Dependencies, conf resourc
 	return wm, nil
 }
 
+type pinValue struct {
+	name string
+	high bool
+}
+
+func setPin(b board.Board, l logging.Logger, pv pinValue) error {
+	pinReturnValue, err := b.GPIOPinByName(pv.name)
+	if err != nil {
+		l.Error(err)
+		return err
+	}
+	err = pinReturnValue.Set(context.Background(), pv.high, nil)
+	if err != nil {
+		l.Error(err)
+		return err
+	}
+	return nil
+}
+
 // SetPower sets the percentage of power the motor should employ between -1 and 1.
 // Negative power corresponds to a backward direction of rotation.
 func (wm *winchmotor) SetPower(ctx context.Context, powerPct float64, extra map[string]interface{}) error {
-	return errUnimplemented
+	err := setPin(wm.board, nil, pinValue{propellerPinName, powerPct == 1})
+	return err
 }
 
 // GoFor instructs the motor to go in a specific direction for a specific amount of
@@ -95,39 +119,31 @@ func (wm *winchmotor) IsPowered(ctx context.Context, extra map[string]interface{
 
 // Reconfigure reconfigures with new settings.
 func (wm *winchmotor) Reconfigure(ctx context.Context, deps resource.Dependencies, conf resource.Config) error {
+
 	// b.left = nil
 	// b.right = nil
+	wm.board = nil
 
 	// This takes the generic resource.Config passed down from the parent and converts it to the
 	// model-specific (aka "native") Config structure defined, above making it easier to directly access attributes.
-	// baseConfig, err := resource.NativeConfig[*Config](conf)
-	// if err != nil {
-	// 	return err
-	// }
+	baseConfig, err := resource.NativeConfig[*Config](conf)
+	if err != nil {
+		return err
+	}
 
-	// b.left, err = motor.FromDependencies(deps, baseConfig.LeftMotor)
-	// if err != nil {
-	// 	return errors.Wrapf(err, "unable to get motor %v for mybase", baseConfig.LeftMotor)
-	// }
-
-	// b.right, err = motor.FromDependencies(deps, baseConfig.RightMotor)
-	// if err != nil {
-	// 	return errors.Wrapf(err, "unable to get motor %v for mybase", baseConfig.RightMotor)
-	// }
-
-	// geometries, err := kinematicbase.CollisionGeometry(conf.Frame)
-	// if err != nil {
-	// 	b.logger.CWarnf(ctx, "base %v %s", b.Name(), err.Error())
-	// }
-	// b.geometries = geometries
+	wm.board, err = board.FromDependencies(deps, baseConfig.Board)
+	if err != nil {
+		return errors.Wrapf(err, "unable to get board %v for mybase", baseConfig.Board)
+	}
 
 	// // Stop motors when reconfiguring.
 	// return multierr.Combine(b.left.Stop(context.Background(), nil), b.right.Stop(context.Background(), nil))
-	return errUnimplemented
+	return nil
 }
 
 type winchmotor struct {
 	resource.Named
+	board board.Board
 	// left   motor.Motor
 	// right  motor.Motor
 	logger logging.Logger
@@ -140,6 +156,7 @@ type winchmotor struct {
 
 // Config contains two component (motor) names.
 type Config struct {
+	Board string `json:"board-1"`
 	// LeftMotor  string `json:"motorL"`
 	// RightMotor string `json:"motorR"`
 }

@@ -18,6 +18,7 @@ require (
 	github.com/ajstarks/svgo v0.0.0-20211024235047-1546f124cd8b // indirect
 	github.com/benbjohnson/clock v1.3.3 // indirect
 	github.com/bep/debounce v1.2.1 // indirect
+	github.com/bluenviron/gortsplib/v4 v4.8.0 // indirect
 	github.com/bufbuild/protocompile v0.5.1 // indirect
 	github.com/bytedance/sonic v1.11.9 // indirect
 	github.com/campoy/embedmd v1.0.0 // indirect
@@ -32,6 +33,7 @@ require (
 	github.com/edaniels/zeroconf v1.0.10 // indirect
 	github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
+	github.com/fullstorydev/grpcurl v1.8.6 // indirect
 	github.com/go-fonts/liberation v0.3.0 // indirect
 	github.com/go-gl/mathgl v1.0.0 // indirect
 	github.com/go-latex/latex v0.0.0-20230307184459-12ec69307ad9 // indirect

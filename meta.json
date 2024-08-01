@@ -1,0 +1,13 @@
+{
+  "module_id": "72032606-5cdb-4db6-9bc2-08b15cd49636:ptrwinchmotor",
+  "visibility": "private",
+  "url": "https://github.com/ChrisPullToRefresh/ptrwinchmotor",
+  "description": "12-volt winch motor",
+  "models": [
+    {
+      "api": "rdk:component:motor",
+      "model": "pulltorefresh:ptrwinchmotor:ptrwinchmotor"
+    }
+  ],
+  "entrypoint": "ptrwinchmotor"
+}

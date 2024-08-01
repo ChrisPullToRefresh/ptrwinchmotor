@@ -1,7 +1,7 @@
 // Package mybase implements a base that only supports SetPower (basic forward/back/turn controls), IsMoving (check if in motion), and Stop (stop all motion).
 // It extends the built-in resource subtype Base and implements methods to handle resource construction, attribute configuration, and reconfiguration.
 
-package winchmotor
+package ptrwinchmotor
 
 import (
 	"context"

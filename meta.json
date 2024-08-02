@@ -6,7 +6,7 @@
   "models": [
     {
       "api": "rdk:component:motor",
-      "model": "pulltorefresh:ptrwinchmotor:ptrwinchmotor"
+      "model": "pulltorefresh:motor:ptrwinchmotor"
     }
   ],
   "entrypoint": "ptrwinchmotor"

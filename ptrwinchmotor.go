@@ -16,7 +16,7 @@ import (
 // Here is where we define your new model's colon-delimited-triplet (acme:my-custom-base-repo:mybase)
 // acme = namespace, my-custom-base-repo = repo-name, mybase = model name.
 var (
-	Model            = resource.NewModel("pulltorefresh", "ptrwinchmotor", "ptrwinchmotor")
+	Model            = resource.NewModel("pulltorefresh", "motor", "ptrwinchmotor")
 	errUnimplemented = errors.New("unimplemented")
 )
 

@@ -4,7 +4,7 @@ package main
 import (
 	"context"
 
-	"github.com/ChrisPullToRefresh/ptrwinchmotor"
+	"github.com/ChrisPullToRefresh/ptrwinchmotormodule/ptrwinchmotor"
 	"go.viam.com/rdk/components/motor"
 	"go.viam.com/rdk/logging"
 	"go.viam.com/rdk/module"

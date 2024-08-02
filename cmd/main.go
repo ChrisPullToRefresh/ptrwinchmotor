@@ -4,6 +4,7 @@ package main
 import (
 	"context"
 
+	"github.com/ChrisPullToRefresh/ptrwinchmotor"
 	"go.viam.com/rdk/components/motor"
 	"go.viam.com/rdk/logging"
 	"go.viam.com/rdk/module"
@@ -27,7 +28,7 @@ func mainWithArgs(ctx context.Context, args []string, logger logging.Logger) (er
 
 	// Models and APIs add helpers to the registry during their init().
 	// They can then be added to the module here.
-	err = myMod.AddModelFromRegistry(ctx, motor.API, Model)
+	err = myMod.AddModelFromRegistry(ctx, motor.API, ptrwinchmotor.Model)
 	if err != nil {
 		return err
 	}

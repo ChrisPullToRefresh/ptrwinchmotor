@@ -40,9 +40,9 @@ func newWinchMotor(ctx context.Context, deps resource.Dependencies, conf resourc
 		Named:  conf.ResourceName().AsNamed(),
 		logger: logger,
 	}
-	// if err := b.Reconfigure(ctx, deps, conf); err != nil {
-	// 	return nil, err
-	// }
+	if err := wm.Reconfigure(ctx, deps, conf); err != nil {
+		return nil, err
+	}
 	return wm, nil
 }
 
